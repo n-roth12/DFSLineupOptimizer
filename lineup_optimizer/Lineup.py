@@ -2,7 +2,7 @@ from lineup_optimizer.lineup_config import FLEX_POSITIONS
 
 class Lineup:
 
-    def __init__(self, lineup: dict,  site: str) -> None:
+    def __init__(self, lineup: dict, site: str) -> None:
         self.lineup = lineup
         self.player_ids = self.get_player_ids()
         self.site = site
@@ -18,8 +18,13 @@ class Lineup:
     def get_lineup_as_list(self) -> list:
         return [player for player in self.lineup.values()]
 
+    @property
     def get_lineup_as_dict(self) -> dict:
         return self.lineup
+
+    @property 
+    def get_site(self) -> str:
+        return self.site
 
     def get_lineup_projected_points(self) -> float:
         points_sum = 0
