@@ -7,7 +7,7 @@ COMPOSITION_TYPES = [{"RB": 3}, {"WR": 4}, {"TE": 2}]
 
 
 class LineupTagRules:
-    def check_punt_rule(lineup: Lineup) -> tuple[bool, dict]:
+    def check_punt_rule(lineup: Lineup):
         for player in lineup.lineup.values():
             if player.get("salary") < DRAFTKINGS_PUNT_PRICE:
                 return True, player.get("position")
