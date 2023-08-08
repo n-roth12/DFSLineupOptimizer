@@ -11,7 +11,6 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run tests
-          working_directory: ~/test/
           command: python -m unittest
 
 workflows:
