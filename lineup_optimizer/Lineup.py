@@ -19,11 +19,9 @@ class Lineup:
     def get_lineup_as_list(self) -> list:
         return [player for player in self.lineup.values()]
 
-    @property
     def get_lineup_as_dict(self) -> dict:
         return self.lineup
 
-    @property
     def get_site(self) -> str:
         return self.site
 

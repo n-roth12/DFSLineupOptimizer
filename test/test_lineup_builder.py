@@ -1,6 +1,6 @@
 import unittest
 from lineup_optimizer.LineupBuilder import LineupBuilder
-from tests.test_draftables import test_draftables
+from test.test_draftables import test_draftables
 from lineup_optimizer.Lineup import Lineup
 
 

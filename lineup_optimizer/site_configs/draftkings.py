@@ -1,4 +1,5 @@
 class DraftKings:
+    NAME = "DRAFTKINGS"
     SALARY_CAP = 50000
     FLEX_POSITIONS = {
         "FLEX": ["RB", "WR", "TE"]

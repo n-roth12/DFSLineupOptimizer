@@ -10,7 +10,9 @@ class TestLineupMethods(unittest.TestCase):
 
     def test_get_empty_lineup_as_dict(self):
         empty_draftkings_lineup = self.empty_draftkings_lineup()
+        print(empty_draftkings_lineup)
         lineup_dict = empty_draftkings_lineup.get_lineup_as_dict()
+        print(empty_draftkings_lineup, lineup_dict)
         for lineup_slot in list(lineup_dict.keys()):
             self.assertEqual({}, lineup_dict[lineup_slot])
 
@@ -18,7 +20,7 @@ class TestLineupMethods(unittest.TestCase):
         empty_draftkings_lineup = self.empty_draftkings_lineup()
         for lineup_slot in self.get_all_draftkings_lineup_slots():
             self.assertTrue(empty_draftkings_lineup.is_slot_empty(lineup_slot))
-    
+
     def test_has_empty_slots_empty_lineup(self):
         empty_draftkings_lineup = self.empty_draftkings_lineup()
         self.assertTrue(empty_draftkings_lineup.has_empty_slots()) 

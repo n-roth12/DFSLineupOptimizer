@@ -1,4 +1,5 @@
 class FanDuel:
+    NAME = "FANDUEL"
     SALARY_CAP = 60000
     FLEX_POSITIONS = {
         "FLEX": ["RB", "WR", "TE"]

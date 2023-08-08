@@ -1,12 +1,12 @@
 FLEX_POSITIONS = {
-    "draftkings" : {
-        "FLEX" : ["RB", "WR", "TE"]
+    "draftkings": {
+        "FLEX": ["RB", "WR", "TE"]
     }, 
-    "fanduel" : {
-        "FLEX" : ["RB", "WR", "TE"]
+    "fanduel": {
+        "FLEX": ["RB", "WR", "TE"]
     },
-    "yahoo" : {
-        "FLEX" : ["RB", "WR", "TE"]
+    "yahoo": {
+        "FLEX": ["RB", "WR", "TE"]
     }
 }
 
