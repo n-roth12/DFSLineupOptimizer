@@ -11,4 +11,10 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run tests
+          working_directory: ~/test/
           command: python -m unittest
+
+workflows:
+  test_my_app:
+    jobs:
+      - build_and_test
