@@ -5,6 +5,7 @@ A Python project for generating NFL daily fantasy contest lineups.
 Clone the repository onto your machine to get started. Ensure you have Python and pip installed, then setup the virtual environment using:
 ```.
 pipenv install -r "requirements.txt"
+pipenv shell
 ```
 ### Usage
 To generate an optimized lineup for a chosen DFS contest, go to the contest webpage and download the players list as a CSV, which is an option on almost all DFS sites. Then, place the CSV file into the root directory of the project. You can then call `optimize` on that file, specifying the site. For example:
