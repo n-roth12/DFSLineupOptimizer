@@ -1,21 +1,18 @@
 # DFSLineupOptimizer [![n-roth12](https://circleci.com/gh/n-roth12/DFSLineupOptimizer.svg?style=svg)](https://app.circleci.com/pipelines/github/n-roth12/DFSLineupOptimizer)
 A Python project for generating NFL daily fantasy contest lineups.
 
-### Getting Started
-Provided that you have Python installed on your system, all that's needed to get started is to navigate to the root directory ```/LineupOptimizer``` 
-and run a test file, for example: ```python -m unittest tests/LineupBuilderTests.py```. You may choose to run the project inside of a virtual
-environment, with:
-```. 
-pipenv shell
+### Installation
+Clone the repository onto your machine to get started. Ensure you have Python and pip installed, then setup the virtual environment using:
+```.
 pipenv install -r "requirements.txt"
-pipenv run python -m unittest tests/LineupBuilderTests.py 
 ```
-
+### Usage
+To generate an optimized lineup for a chosen DFS contest, go to the contest webpage and download the players list as a CSV, which is an option on almost all DFS sites. Then, place the CSV file into the root directory of the project. You can then call `optimize` on that file, specifying the site. For example:
+```
+python optimize.py DRAFTKINGS DKSalaries.csv
+```
+This will output the lineup to the console. 
 ### About 
-The file ```tests/test_draftables.py``` includes a sample of players from a DraftKings DFS slate to get you started. This is also the file used 
-in all the tests. If you would like to use a different set of players, please alter your file to follow the format of the list in 
-```test_draftables.py```, otherwise the optimizer will not work.
-
 Lineups are able to be generated following certain constraints called "Tags". In addition, TagsController can confirm whether a given Lineup conforms 
-to the rules of specific tags, as well as ouput the list of Tags that the Lineup conforms to. Examples of such Tags are: "Stack: 4x2", 
+to the rules of specific tags, as well as output the list of Tags that the Lineup conforms to. Examples of such Tags are: "Stack: 4x2", 
 "Build: 3 RB", "Punt: TE".
