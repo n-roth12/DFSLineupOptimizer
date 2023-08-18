@@ -19,7 +19,7 @@ class TestTagsControllerMethods(unittest.TestCase):
         lineup = Lineup(lineup={"QB": josh_allen, "RB1": james_cook, "RB2": tony_pollard,
                                 "WR1": stefon_diggs, "WR2": gabe_davis, "WR3": tyler_boyd,
                                 "TE": george_kittle, "FLEX": matt_breida, "DST": giants},
-                        site="draftkings")
+                        site="DRAFTKINGS")
         self.assertEqual((True, "DST"), LineupTagRules.check_punt_rule(lineup))
         self.assertTrue(LineupTagRules.check_composition_rule(composition={"RB": 3},
                         lineup=lineup))
@@ -30,7 +30,7 @@ class TestTagsControllerMethods(unittest.TestCase):
 # HELPER METHODS #
     def get_draftable_by_id(self, playerSiteId: int) -> dict:
         return next((player for player in test_draftables if (
-            player["playerSiteId"] == playerSiteId)), None)
+            player.get("id") == playerSiteId)), None)
 
 
 if __name__ == "__main__":

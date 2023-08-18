@@ -1,15 +1,11 @@
-from lineup_optimizer.site_configs.draftkings import DraftKings
-from lineup_optimizer.site_configs.fanduel import FanDuel
-
-SITES = {
-    DraftKings.NAME: DraftKings,
-    FanDuel.NAME: FanDuel
-}
+from lineup_optimizer.site_configs import SITES
+from parsers import parse_csv
+from lineup_optimizer.LineupBuilder import LineupBuilder
 
 
-def parse(filename):
-    pass
-
-
-def optimize(site, player_pool):
-    pass
+def optimize_lineup(site, filename):
+    parser = parse_csv(filename)
+    lineup_builder = LineupBuilder(SITES[site].LINEUP_SLOTS,
+                                   SITES[site].NAME,
+                                   draftables=parser.players)
+    return lineup_builder.build()

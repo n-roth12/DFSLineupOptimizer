@@ -5,3 +5,4 @@ class FanDuel:
         "FLEX": ["RB", "WR", "TE"]
     }
     LINEUP_SLOTS = ["QB", "RB1", "RB2", "WR1", "WR2", "WR3", "TE", "FLEX", "DST"]
+    INJURED_STATUSES = ["IR", "O"]

@@ -1,16 +1,16 @@
 import sys
-from lineup_optimizer.LineupBuilder import LineupBuilder
-from lineup_optimizer import SITES
+from lineup_optimizer import optimize_lineup
 
 
 def optimize(args: list[str]):
     if len(args) < 3:
         print('Missin arguments: must include both site and player pool filename.')
         return
-    site = args[1]
+    site = args[1].upper()
     filename = args[2]
-    x = LineupBuilder(SITES[site], SITES[site].LINEUP_SLOTS)
-    print(x)
+
+    lineup = optimize_lineup(site, filename)
+    print(lineup)
 
 
 if __name__ == '__main__':

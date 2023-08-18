@@ -1,6 +1,6 @@
 from lineup_optimizer.LineupBuilderSlot import LineupBuilderSlot
-from lineup_optimizer.lineup_config import INJURED_STATUSES, SALARY_CAPS
 from lineup_optimizer.Lineup import Lineup
+from lineup_optimizer.site_configs import SITES
 
 from random import randint
 
@@ -32,7 +32,7 @@ class LineupBuilder:
                 max_salary=lineup_slot.max_salary,
                 taken_ids=lineup_ids
             )
-            lineup_ids.append(player["playerSiteId"])
+            lineup_ids.append(player.get("id"))
             lineup[lineup_slot.title] = player
         return Lineup(lineup=lineup, site=self.site)
 
@@ -46,7 +46,7 @@ class LineupBuilder:
                     taken_ids=lineup_ids
                 )
                 new_lineup[lineup_slot.title] = player
-                lineup_ids.append(player.get("playerSiteId"))
+                lineup_ids.append(player.get("id"))
             else:
                 new_lineup[lineup_slot.title] = lineup.get(lineup_slot.title)
         return Lineup(lineup=new_lineup, site=self.site)
@@ -61,7 +61,7 @@ class LineupBuilder:
             lineup_salary = generated_lineup.get_lineup_salary()
             lineup_projection = generated_lineup.get_lineup_projected_points()
             if (lineup_projection > best_lineup_projection
-                    and lineup_salary <= SALARY_CAPS.get(self.site)):
+                    and lineup_salary <= SITES.get(self.site).SALARY_CAP):
                 best_lineup = generated_lineup
                 best_lineup_projection = lineup_projection
         return best_lineup
@@ -91,7 +91,8 @@ class LineupBuilder:
         count1 = 0
         count2 = 0
         for lineup_slot in sorted(self.lineup_slots,
-                                  key=lambda x: self.stack_order_helper(x.eligible_positions)):
+                                  key=lambda x:
+                                  self.stack_order_helper(x.eligible_positions)):
             if count1 == num_players1 and count2 == num_players2:
                 return self
             if count2 == num_players2:
@@ -123,8 +124,9 @@ class LineupBuilder:
         weighted_cost_map = {}
         for draftable in draftables:
             fantasy_points_per_game = 0.0 if (
-                draftable["fppg"] == "-") else float(draftable["fppg"])
-            value = fantasy_points_per_game / int(draftable["salary"])
+                draftable.get("avg_points") == "-") else (
+                float(draftable.get("avg_points", 0.0)))
+            value = fantasy_points_per_game / int(draftable.get("salary"))
             draftable["value"] = value
             if draftable.get("position") not in weighted_cost_map.keys():
                 weighted_cost_map[draftable["position"]] = [draftable]
@@ -132,16 +134,16 @@ class LineupBuilder:
                 weighted_cost_map[draftable["position"]].append(draftable)
         for position in weighted_cost_map.keys():
             weighted_cost_map[position].sort(
-                key=lambda player: player["value"], reverse=True)
+                key=lambda player: player.get("value"), reverse=True)
         return weighted_cost_map
 
     def pick_player(self, position: str, taken_ids: list = [],
                     team_abbr: str = None, max_salary: int = None) -> dict:
         eligible_players = [player for player in self.weighted_cost_map[position] if (
-            (team_abbr is None or player["team"] == team_abbr)
-            and (max_salary is None or player["salary"] <= max_salary)
-            and (player["status"] not in INJURED_STATUSES)
-            and (player["playerSiteId"] not in taken_ids)
+            (team_abbr is None or player.get("team") == team_abbr)
+            and (max_salary is None or player.get("salary") <= max_salary)
+            and (player.get("status") not in SITES.get(self.site).INJURED_STATUSES)
+            and (player.get("id") not in taken_ids)
         )]
         if not len(eligible_players):
             return None

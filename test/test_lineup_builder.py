@@ -9,7 +9,7 @@ class LineupBuilderTests(unittest.TestCase):
     def test_lineup_builder_get(self):
         lineup_builder = LineupBuilder(positions=["QB", "RB1", "RB2", "WR1",
                                                   "WR2", "WR3", "TE", "FLEX", "DST"],
-                                       site="draftkings",
+                                       site="DRAFTKINGS",
                                        draftables=test_draftables)
         self.assertIsNone(lineup_builder.get("TE2"))
         self.assertTrue(lineup_builder.get("WR3").title == "WR3")
@@ -17,7 +17,7 @@ class LineupBuilderTests(unittest.TestCase):
     def test_with_punt_rule(self):
         lineup_builder = LineupBuilder(positions=["QB", "RB1", "RB2", "WR1",
                                                   "WR2", "WR3", "TE", "FLEX", "DST"],
-                                       site="draftkings",
+                                       site="DRAFTKINGS",
                                        draftables=test_draftables) \
             .with_punt_rule("TE", 4000) \
             .with_punt_rule("WR2", 3500)
@@ -154,7 +154,7 @@ class LineupBuilderTests(unittest.TestCase):
 
     def test_fill_empty_lineup_without_positions(self):
         lineup = self.default_draftkings_builder().fill(Lineup(lineup={},
-                                                        site="draftkings"))
+                                                        site="DRAFTKINGS"))
         self.assertEqual(0, len(lineup.get_empty_slots()))
 
     def test_fill_non_empty_lineup_1(self):
@@ -173,7 +173,7 @@ class LineupBuilderTests(unittest.TestCase):
         player4 = builder.pick_player(position="TE")
         player5 = builder.pick_player(position="DST")
         lineup = Lineup(lineup={"QB": player1, "RB1": player2, "WR1": player3,
-                                "TE": player4, "DST": player5}, site="draftkings")
+                                "TE": player4, "DST": player5}, site="DRAFTKINGS")
         result = builder.fill(lineup=lineup)
         self.assertEqual(player1, result.get("QB"))
         self.assertEqual(player2, result.get("RB1"))
@@ -193,14 +193,12 @@ class LineupBuilderTests(unittest.TestCase):
         self.assertEqual(["QB", "RB1", "RB2", "WR1", "WR2", "WR3", "TE", "FLEX", "DST"],
                          list(lineup.lineup.keys()))
 
-
-# HELPER METHODS #
     def default_draftkings_builder(self):
         return LineupBuilder(positions=["QB", "RB1", "RB2", "WR1", "WR2",
                                         "WR3", "TE", "FLEX", "DST"],
-                             site="draftkings", draftables=test_draftables)
+                             site="DRAFTKINGS", draftables=test_draftables)
 
     def empty_lineup(self):
         return Lineup({"QB": {}, "RB1": {}, "RB2": {}, "WR1": {}, "WR2": {},
                        "WR3": {}, "TE": {}, "FLEX": {}, "DST": {}},
-                      site="draftkings")
+                      site="DRAFTKINGS")

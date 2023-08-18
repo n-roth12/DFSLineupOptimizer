@@ -1,4 +1,4 @@
-from lineup_optimizer.lineup_config import FLEX_POSITIONS
+from lineup_optimizer.site_configs import SITES
 
 
 class LineupBuilderSlot:
@@ -14,11 +14,14 @@ class LineupBuilderSlot:
         self.eligible_team = eligible_team_abbr
         self.max_salary = max_salary
 
+    def __str__(self) -> str:
+        return f'{self.title} ({self.eligible_positions})'
+
     def default_eligible_position(self, title: str):
         if title != "FLEX":
             self.eligible_positions = ["".join(filter(lambda x: x.isalpha(), title))]
         else:
-            self.eligible_positions = FLEX_POSITIONS[self.site][title]
+            self.eligible_positions = SITES[self.site].FLEX_POSITIONS.get(title)
 
     def set_eligible_team(self, eligible_team_abbr: str):
         self.eligible_team = eligible_team_abbr

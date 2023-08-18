@@ -1,4 +1,4 @@
-from lineup_optimizer.lineup_config import FLEX_POSITIONS
+from lineup_optimizer.site_configs import SITES
 
 
 class Lineup:
@@ -8,6 +8,12 @@ class Lineup:
         self.player_ids = self.get_player_ids()
         self.site = site
         self.allows_duplicates = False
+
+    def __str__(self) -> str:
+        result = ""
+        for key in self.lineup.keys():
+            result += f'{key}: {self.lineup.get(key)} \n'
+        return result
 
     def get(self, lineup_slot: str):
         return self.lineup.get(lineup_slot)
@@ -103,7 +109,7 @@ class Lineup:
         return None
 
     def is_position_eligible_for_slot(self, lineup_slot: str, position: str) -> bool:
-        if lineup_slot in list(FLEX_POSITIONS.get(self.site).keys()):
-            return position in FLEX_POSITIONS.get(self.site).get(lineup_slot)
+        if lineup_slot in list(SITES.get(self.site).FLEX_POSITIONS.keys()):
+            return position in SITES.get(self.site).FLEX_POSITIONS.get(lineup_slot)
 
         return "".join(filter(lambda x: x.isalpha(), lineup_slot)) == position
