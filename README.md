@@ -1,4 +1,4 @@
-# DFSLineupOptimizer ![(build status)](https://github.com/n-roth12/DFSLineupOptimizer/actions/workflows/python-app.yml/badge.svg)
+# DFSLineupOptimizer [![n-roth12](https://circleci.com/gh/n-roth12/DFSLineupOptimizer.svg?style=svg)](https://app.circleci.com/pipelines/github/n-roth12/DFSLineupOptimizer)
 A Python project for generating NFL daily fantasy contest lineups.
 
 ### Getting Started
