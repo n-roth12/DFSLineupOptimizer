@@ -1,4 +1,4 @@
-from lineup_optimizer.site_configs import SITES
+from .site_configs import SITES
 
 
 class LineupBuilderSlot:

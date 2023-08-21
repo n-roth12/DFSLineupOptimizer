@@ -1,5 +1,5 @@
 import unittest
-from lineup_optimizer.LineupBuilderSlot import LineupBuilderSlot
+from lineup_optimizer.lineup_builder_slot import LineupBuilderSlot
 
 
 class LineupBuilderSlotTests(unittest.TestCase):

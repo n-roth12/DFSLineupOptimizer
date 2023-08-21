@@ -1,5 +1,5 @@
-from .DraftKingsParser import DraftKingsParser
-from .FanduelParser import FanduelParser
+from .draftkings_parser import DraftKingsParser
+from .fanduel_parser import FanduelParser
 
 
 def parse_csv(filepath: str):

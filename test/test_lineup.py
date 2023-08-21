@@ -1,5 +1,5 @@
 import unittest
-from lineup_optimizer.Lineup import Lineup
+from lineup_optimizer.lineup import Lineup
 
 
 class TestLineupMethods(unittest.TestCase):

@@ -1,6 +1,6 @@
-from lineup_optimizer.LineupBuilderSlot import LineupBuilderSlot
-from lineup_optimizer.Lineup import Lineup
-from lineup_optimizer.site_configs import SITES
+from .lineup_builder_slot import LineupBuilderSlot
+from .lineup import Lineup
+from .site_configs import SITES
 
 from random import randint
 

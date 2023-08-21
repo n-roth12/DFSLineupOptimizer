@@ -1,6 +1,6 @@
-from lineup_optimizer.site_configs import SITES
-from parsers import parse_csv
-from lineup_optimizer.LineupBuilder import LineupBuilder
+from .site_configs import SITES
+from .parsers import parse_csv
+from .lineup_builder import LineupBuilder
 
 
 def optimize_lineup(site, filename):

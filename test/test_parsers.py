@@ -1,6 +1,5 @@
 import unittest
-from parsers import parse_csv
-import os
+from lineup_optimizer.parsers import parse_csv
 
 
 class TestParser(unittest.TestCase):

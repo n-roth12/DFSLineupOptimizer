@@ -1,7 +1,7 @@
 import unittest
-from lineup_optimizer.Lineup import Lineup
+from lineup_optimizer.lineup import Lineup
 from test.test_draftables import test_draftables
-from lineup_optimizer.LineupTagRules import LineupTagRules
+from lineup_optimizer.lineup_tag_rules import LineupTagRules
 
 
 class TestTagsControllerMethods(unittest.TestCase):

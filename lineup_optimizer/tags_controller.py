@@ -1,5 +1,5 @@
-from lineup_optimizer.LineupTagRules import LineupTagRules
-from lineup_optimizer.Lineup import Lineup
+from .lineup_tag_rules import LineupTagRules
+from .lineup import Lineup
 
 DRAFTKINGS_PUNT_PRICE = 4000
 STACK_TYPES = [(3, 1), (3, 2), (4, 1), (4, 2), (4, 3), (5, 1),
