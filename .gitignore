@@ -1,3 +1,4 @@
 dist/
 Pipfile.lock
 /DKSalaries_example.csv
+*.py[cod]
