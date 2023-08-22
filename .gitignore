@@ -1,4 +1,7 @@
 dist/
 Pipfile.lock
 /DKSalaries_example.csv
+/Yahoo_DF_player_export.csv
 *.py[cod]
+.DS_Store
+**/.DS_Store

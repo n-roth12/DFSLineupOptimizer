@@ -15,6 +15,13 @@ class TestParser(unittest.TestCase):
         self.assertEqual(fanduel_parser.player_count, 127)
         self.assertEqual(len(fanduel_parser.players), 127)
 
+    def test_yahoo_parser(self):
+        yahoo_parser = parse_csv(
+            'test/test_player_pools/Yahoo_DF_player_export.csv'
+        )
+        self.assertEqual(yahoo_parser.player_count, 759)
+        self.assertEqual(len(yahoo_parser.players), 759)
+
 
 if __name__ == "__main__":
     unittest.main()

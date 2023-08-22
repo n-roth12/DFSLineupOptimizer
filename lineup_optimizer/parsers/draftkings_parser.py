@@ -13,7 +13,7 @@ class DraftKingsParser:
                     "id": row["ID"],
                     "roster_position": row["Roster Position"],
                     "salary": row["Salary"],
-                    "game": row["Game Info"],
+                    "game": row["Game Info"].split(' ')[0],
                     "team_abbr": row["TeamAbbrev"],
                     "avg_points": row["AvgPointsPerGame"]
                 })
