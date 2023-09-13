@@ -4,14 +4,13 @@ from lineup_optimizer import optimize_lineup
 
 def optimize(args: list[str]):
     if len(args) < 3:
-        print('Missin arguments: must include both site and player pool filename.')
+        print("Missing arguments: must include both fame mode and player pool filename.")
         return
-    site = args[1].upper()
-    filename = args[2]
-
-    lineup = optimize_lineup(site, filename)
+    mode = args[1].upper()
+    filepath = args[2]
+    lineup = optimize_lineup(mode, filepath)
     print(lineup)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     optimize(sys.argv)

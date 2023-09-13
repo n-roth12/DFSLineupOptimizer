@@ -1,26 +1,24 @@
-from .site_configs import SITES
+from .settings import SITES
 
 
 class Lineup:
 
-    def __init__(self, lineup: dict, site: str) -> None:
+    def __init__(self, lineup: dict, site: str, mode: str = "FULL_ROSTER") -> None:
         self.lineup = lineup
         self.player_ids = self.get_player_ids()
         self.site = site
+        self.mode = mode
         self.allows_duplicates = False
 
     def __str__(self) -> str:
         result = ""
         for key in self.lineup.keys():
-            result += f'{key}: {self.lineup.get(key)} \n'
+            result += f"{key}: {self.lineup.get(key).get('name')} \n"
+        result += f"SALARY: {str(self.get_lineup_salary())}"
         return result
 
     def get(self, lineup_slot: str):
         return self.lineup.get(lineup_slot)
-
-    def create_lineup_with_positions(positions: list, site: str) -> None:
-        lineup = {position: {} for position in positions}
-        return Lineup(lineup=lineup, site=site)
 
     def get_lineup_as_list(self) -> list:
         return [player for player in self.lineup.values()]
@@ -33,28 +31,20 @@ class Lineup:
 
     def get_lineup_projected_points(self) -> float:
         points_sum = 0
-        for player in self.lineup.values():
-            if player != {}:
-                player_data = player.get("player")
-                if player_data is not None:
-                    points_sum += 0.0 if (
-                        player_data.get("fppg") == "-"
-                    ) else (
-                        float(player_data.get("fppg"))
-                    )
-                else:
-                    points_sum += 0.0 if (
-                        player.get("fppg") == "-"
-                    ) else (
-                        float(player.get("fppg"))
-                    )
+        for pos, player in self.lineup.items():
+            if player:
+                points_sum += 0.0 if (
+                    player.get("fppg") == "-" or not player.get("fppg")
+                ) else (
+                    SITES[self.site].MODES[self.mode]["POSITIONS"].get(pos).get("PTS_MULTIPLIER") * float(player.get("fppg"))
+                )
 
         return points_sum
 
     def get_lineup_salary(self) -> int:
         salary_sum = 0
         for player in self.lineup.values():
-            if player.get("salary"):
+            if player and player.get("salary"):
                 salary_sum += player.get("salary")
 
         return salary_sum
@@ -86,6 +76,7 @@ class Lineup:
             self.lineup[lineup_slot] = player
             self.player_ids.append(player.get("playerSiteId"))
             return True
+
         return False
 
     def add_players(self, players: list) -> bool:
@@ -109,7 +100,5 @@ class Lineup:
         return None
 
     def is_position_eligible_for_slot(self, lineup_slot: str, position: str) -> bool:
-        if lineup_slot in list(SITES.get(self.site).FLEX_POSITIONS.keys()):
-            return position in SITES.get(self.site).FLEX_POSITIONS.get(lineup_slot)
-
-        return "".join(filter(lambda x: x.isalpha(), lineup_slot)) == position
+        return position in SITES[self.site].MODES[self.mode]["POSITIONS"].get(
+            lineup_slot).get("ELIGIBLE_POSITIONS")
