@@ -15,19 +15,26 @@ class TestParser(unittest.TestCase):
         self.assertEqual(draftkings_parser.player_count, 148)
         self.assertEqual(len(draftkings_parser.players), 148)
 
-    def test_fanduel_parser_full_roster(self):
+    def test_fanduel_parser_mvp(self):
         fanduel_parser = parse_csv(
             "test/test_csvs/FanDuel_mvp.csv"
         )
         self.assertEqual(fanduel_parser.player_count, 67)
         self.assertEqual(len(fanduel_parser.players), 67)
 
-    def test_yahoo_parser_full_roster(self):
+    def test_yahoo_parser_superstar(self):
         yahoo_parser = parse_csv(
             "test/test_csvs/Yahoo_superstar.csv"
         )
         self.assertEqual(yahoo_parser.player_count, 60)
         self.assertEqual(len(yahoo_parser.players), 60)
+
+    def test_yahoo_parser_full_roster(self):
+        yahoo_parser = parse_csv(
+            "test/test_csvs/Yahoo_full_roster.csv"
+        )
+        self.assertEqual(yahoo_parser.player_count, 759)
+        self.assertEqual(len(yahoo_parser.players), 759)
 
 
 if __name__ == "__main__":
