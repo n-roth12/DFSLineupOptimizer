@@ -5,6 +5,7 @@ class Yahoo(DefaultSettings):
     NAME = "YAHOO"
     MODES = {
         "FULL_ROSTER": {
+            "CSV_COLS": ["Contest ID", "QB", "RB1", "RB2", "WR1", "WR2", "WR3", "TE", "FLEX", "DEF"],
             "SALARY_CAP": 200,
             "POSITIONS": {
                 "QB": {

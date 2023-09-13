@@ -6,6 +6,7 @@ class FanDuel(DefaultSettings):
     MODES = {
         "FULL_ROSTER": {
             "SALARY_CAP": 60000,
+            "CSV_COLS": ["QB", "RB", "RB", "WR", "WR", "WR", "TE", "FLEX", "DEF"],
             "POSITIONS": {
                 "QB": {
                     "ELIGIBLE_POSITIONS": ["QB"],

@@ -1,6 +1,6 @@
 from .lineup_builder_slot import LineupBuilderSlot
 from .lineup import Lineup
-from .settings import SITES
+from .settings import SETTINGS
 
 from random import randint
 from math import floor
@@ -16,7 +16,7 @@ class LineupBuilder:
         self.site = site
         self.mode = mode
 
-        for position, eligible_positions in SITES[site].MODES.get(
+        for position, eligible_positions in SETTINGS[site].MODES.get(
                 mode).get("POSITIONS").items():
             self.lineup_slots.append(
                 LineupBuilderSlot(position,
@@ -89,7 +89,7 @@ class LineupBuilder:
             lineup_projection = generated_lineup.get_lineup_projected_points()
 
             if (lineup_projection > best_lineup_projection
-                    and lineup_salary <= SITES[self.site].MODES.get(
+                    and lineup_salary <= SETTINGS[self.site].MODES.get(
                         self.mode).get("SALARY_CAP")):
                 best_lineup = generated_lineup
                 best_lineup_projection = lineup_projection
@@ -158,7 +158,7 @@ class LineupBuilder:
         weighted_cost_map = {}
 
         for draftable in draftables:
-            if draftable.get("status") in SITES[self.site].INJURED_STATUSES:
+            if draftable.get("status") in SETTINGS[self.site].INJURED_STATUSES:
                 continue
 
             fantasy_points_per_game = 0.0 if (
@@ -201,6 +201,6 @@ class LineupBuilder:
         return eligible_players[index_to_pick]
 
     def nth_pos_percentile(self, pos: str, num_players: int):
-        if pos in SITES[self.site].EXCLUSION_CONSTANTS.keys():
-            return max(2, floor(SITES[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
-        return max(2, floor(SITES[self.site].EXCLUSION_CONSTANTS["DEFAULT"] * num_players))
+        if pos in SETTINGS[self.site].EXCLUSION_CONSTANTS.keys():
+            return max(2, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
+        return max(2, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"] * num_players))

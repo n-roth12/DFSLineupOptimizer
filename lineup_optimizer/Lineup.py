@@ -1,4 +1,4 @@
-from .settings import SITES
+from .settings import SETTINGS
 
 
 class Lineup:
@@ -36,7 +36,7 @@ class Lineup:
                 points_sum += 0.0 if (
                     player.get("fppg") == "-" or not player.get("fppg")
                 ) else (
-                    SITES[self.site].MODES[self.mode]["POSITIONS"].get(pos).get("PTS_MULTIPLIER") * float(player.get("fppg"))
+                    SETTINGS[self.site].MODES[self.mode]["POSITIONS"].get(pos).get("PTS_MULTIPLIER") * float(player.get("fppg"))
                 )
 
         return points_sum
@@ -100,5 +100,5 @@ class Lineup:
         return None
 
     def is_position_eligible_for_slot(self, lineup_slot: str, position: str) -> bool:
-        return position in SITES[self.site].MODES[self.mode]["POSITIONS"].get(
+        return position in SETTINGS[self.site].MODES[self.mode]["POSITIONS"].get(
             lineup_slot).get("ELIGIBLE_POSITIONS")

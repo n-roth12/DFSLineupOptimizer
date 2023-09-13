@@ -6,6 +6,7 @@ class DraftKings(DefaultSettings):
     MODES = {
         "FULL_ROSTER": {
             "SALARY_CAP": 50000,
+            "CSV_COLS": ["QB", "RB", "RB", "WR", "WR", "WR", "TE", "FLEX", "DST"],
             "POSITIONS": {
                 "QB": {
                     "ELIGIBLE_POSITIONS": ["QB"],
