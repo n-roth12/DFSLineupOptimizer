@@ -1,11 +1,11 @@
-# DFSLineupOptimizer [![n-roth12](https://circleci.com/gh/n-roth12/DFSLineupOptimizer.svg?style=shield)](https://app.circleci.com/pipelines/github/n-roth12/DFSLineupOptimizer)
-A Python project for generating NFL daily fantasy contest lineups.
+# DFSLineupOptimizer [![n-roth12](https://circleci.com/gh/n-roth12/DFSLineupOptimizer.svg?style=shield)](https://app.circleci.com/pipelines/github/n-roth12/DFSLineupOptimizer)  [![PyPI version](https://badge.fury.io/py/lineup-optimizer.svg)](https://badge.fury.io/py/lineup-optimizer)
+A Python project for generating NFL daily fantasy contest lineups.  
 
 ### Installation
 #### As Package
 To install and use as a Python package:
 ```
-pip install lineup-optimizer
+python3 -m pip install lineup-optimizer
 ```
 #### Repo
 Clone the repository onto your machine to get started. Ensure you have Python and pip installed, then set up the virtual environment using:
