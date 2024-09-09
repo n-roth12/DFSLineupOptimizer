@@ -33,16 +33,16 @@ class LineupTagRules:
                 stack_map[player.get("game").get("gameId")] = {
                     "homeTeam": {"team": player.get("game").get("homeTeam"),
                                  "players": [player] if (
-                                    player.get("team") == player.get("game").get("homeTeam")
+                                    player.get("team_abbr") == player.get("game").get("homeTeam")
                                   ) else ([])
                                  },
                     "awayTeam": {"team": player.get("game").get("awayTeam"),
                                  "players": [player] if (
-                                    player.get("team") == player.get("game").get("awayTeam")
+                                    player.get("team_abbr") == player.get("game").get("awayTeam")
                                  ) else []}
                 }
             else:
-                if player.get("team") == player.get("game").get("homeTeam"):
+                if player.get("team_abbr") == player.get("game").get("homeTeam"):
                     stack_map[player.get("game").get(
                         "gameId")]["homeTeam"]["players"].append(player)
                 else:
