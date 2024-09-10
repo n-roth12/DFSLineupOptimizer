@@ -6,7 +6,7 @@ from .settings import SETTINGS
 from random import randint
 from math import floor
 
-STACK_ORDER = ["QB", "WR", "TE", "RB", "DST"]
+STACK_ORDER = ["QB", "WR", "TE", "RB", "DST", "D", "DEF"]
 
 
 class LineupBuilder:

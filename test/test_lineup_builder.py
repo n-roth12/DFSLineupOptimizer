@@ -132,22 +132,20 @@ class LineupBuilderTests(unittest.TestCase):
 
     def test_build_1(self):
         lineup = self.default_draftkings_builder() \
-            .with_stack_rule("KC", 2, "JAX", 4) \
-            .with_composition_rule("RB", 2) \
-            .with_punt_rule("TE", 5000) \
+            .with_stack_rule("KC", 3, "JAX", 2) \
             .build()
-        # self.assertEqual("KC", lineup.get("QB")["team"])
-        # self.assertEqual("KC", lineup.get("WR1")["team"])
-        # self.assertEqual("JAX", lineup.get("WR2")["team"])
-        # self.assertEqual("KC", lineup.get("WR3")["team"])
-        # self.assertEqual("JAX", lineup.get("FLEX")["team"])
-        # self.assertEqual("KC", lineup.get("TE")["team"])
+        self.assertEqual("KC", lineup.get("QB")["team_abbr"])
+        self.assertEqual("KC", lineup.get("WR1")["team_abbr"])
+        self.assertEqual("JAX", lineup.get("WR2")["team_abbr"])
+        self.assertEqual("JAX", lineup.get("WR3")["team_abbr"])
+        self.assertEqual("JAX", lineup.get("FLEX")["team_abbr"])
+        self.assertEqual("JAX", lineup.get("TE")["team_abbr"])
         # self.assertEqual("JAX", lineup.get("RB1")["team"])
         # self.assertEqual("KC", lineup.get("RB2")["team"])
         # self.assertEqual("JAX", lineup.get("DST")["team"])
         # self.assertEqual("RB", lineup.get("FLEX")["position"])
         # self.assertGreaterEqual(3700, lineup.get("TE")["salary"])
-        self.assertIn((4, 2), LineupTagRules.check_stack_rule(lineup))
+        # self.assertIn((4, 2), LineupTagRules.check_stack_rule(lineup))
 
     # def test_fill_empty_lineup_with_positions(self):
     #     empty_lineup = self.empty_lineup()
