@@ -12,7 +12,8 @@ STACK_ORDER = ["QB", "WR", "TE", "RB", "DST"]
 class LineupBuilder:
 
     def __init__(self, site: str,
-                 draftables: list, mode: str = "FULL_ROSTER", weighted_cost_map: dict = {}):
+                 draftables: list, mode: str = "FULL_ROSTER",
+                 weighted_cost_map: dict = {}):
         self.lineup_slots: List[LineupBuilderSlot] = []
         self.site: str = site
         self.mode: str = mode
@@ -129,7 +130,8 @@ class LineupBuilder:
                                   self.stack_order_helper(x.eligible_positions)):
             if count1 == num_players1 and count2 == num_players2:
                 lineup_slot.set_eligible_teams(
-                    [team for team in self.teams if (team != team_abbr1 and team != team_abbr2)])
+                    [team for team in self.teams if (team != team_abbr1
+                                                     and team != team_abbr2)])
 
             elif count2 == num_players2:
                 lineup_slot.set_eligible_teams([team_abbr1])
@@ -211,5 +213,8 @@ class LineupBuilder:
 
     def nth_pos_percentile(self, pos: str, num_players: int):
         if pos in SETTINGS[self.site].EXCLUSION_CONSTANTS.keys():
-            return max(1, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
-        return max(1, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"] * num_players))
+            return max(1,
+                       floor(SETTINGS[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
+        return max(1,
+                   floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"]
+                         * num_players))

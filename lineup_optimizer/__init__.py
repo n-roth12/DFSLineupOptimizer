@@ -19,7 +19,6 @@ def optimize_lineup(mode: str, filepath: str, stack: str = None):
 
     for i in range(300):
         lineup = lineup_builder.build()
-        # print(lineup)
         salary = lineup.get_lineup_salary()
         proj_points = lineup.get_lineup_projected_points()
         if salary <= SETTINGS[site].MODES.get(mode).get("SALARY_CAP") and (

@@ -3,8 +3,6 @@ from .lineup import Lineup
 from .lineup_builder import LineupBuilder
 from .settings import SETTINGS
 
-from random import randint
-from math import floor
 from typing import List
 
 STACK_ORDER = ["QB", "WR", "TE", "RB", "DST"]
@@ -28,8 +26,10 @@ class MultiLineupBuilder:
                                   eligible_positions.get("SALARY_MULTIPLIER"))
             )
 
-        self.weighted_cost_map = self.create_weighted_cost_map_and_teams_set(draftables)
-        self.lineups_builders = [LineupBuilder(site=site, draftables=draftables, weighted_cost_map=self.weighted_cost_map)]
+        self.weighted_cost_map = self.create_weighted_cost_map_and_teams_set(
+            draftables)
+        self.lineups_builders = [LineupBuilder(
+            site=site, draftables=draftables, weighted_cost_map=self.weighted_cost_map)]
 
     def get(self, position_title: str):
         return
@@ -48,9 +48,10 @@ class MultiLineupBuilder:
     def with_stack_rule(self, team_abbr1: str, num_players1: int,
                         team_abbr2: str, num_players2: int):
         for lineup in self.lineups:
-            lineup.with_stack_rule(team_abbr1, num_players1, team_abbr2, num_players2)
+            lineup.with_stack_rule(
+                team_abbr1, num_players1, team_abbr2, num_players2)
         return None
-    
+
     # {"id": 9182983,
     #  "min_exposure": 5.4,
     #  "max_exposure": }

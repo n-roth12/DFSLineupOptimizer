@@ -3,14 +3,9 @@ from lineup_optimizer.lineup_builder import LineupBuilder
 from test.test_draftables import test_draftables
 from lineup_optimizer.lineup import Lineup
 from lineup_optimizer.lineup_tag_rules import LineupTagRules
-from test.test_players.draftkings_players import players
 
 
 class LineupBuilderTests(unittest.TestCase):
-    def test_lineup_builder(self):
-        lineup_builder = LineupBuilder(mode="FULL_ROSTER",
-                                       site="DRAFTKINGS",
-                                       draftables=players)
 
     def test_lineup_builder_get(self):
         lineup_builder = LineupBuilder(mode="FULL_ROSTER",
@@ -66,7 +61,8 @@ class LineupBuilderTests(unittest.TestCase):
         self.assertTrue(lineup_builder.get("WR2").eligible_teams == ["JAX"])
         self.assertTrue(lineup_builder.get("WR3").eligible_teams == ["JAX"])
         self.assertTrue("KC" not in lineup_builder.get(
-            "FLEX").eligible_teams and "JAX" not in lineup_builder.get("FLEX").eligible_teams)
+            "FLEX").eligible_teams
+            and "JAX" not in lineup_builder.get("FLEX").eligible_teams)
 
     # def test_with_valid_stack_rule_2_2(self):
     #     lineup_builder = self.default_draftkings_builder().with_stack_rule(

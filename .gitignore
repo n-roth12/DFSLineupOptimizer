@@ -2,6 +2,8 @@ dist/
 Pipfile.lock
 /DKSalaries_example.csv
 /Yahoo_DF_player_export.csv
+/FANDUEL_RULL_ROSTER_export.csv
 *.py[cod]
 .DS_Store
 **/.DS_Store
+/.vscode
