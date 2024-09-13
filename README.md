@@ -1,6 +1,10 @@
 # DFSLineupOptimizer [![n-roth12](https://circleci.com/gh/n-roth12/DFSLineupOptimizer.svg?style=shield)](https://app.circleci.com/pipelines/github/n-roth12/DFSLineupOptimizer)  [![PyPI version](https://badge.fury.io/py/lineup-optimizer.svg)](https://badge.fury.io/py/lineup-optimizer)
 A Python project for generating NFL daily fantasy contest lineups.  
 
+## Important Note:
+As this optimizer runs completely offline, fantasy points per game as provided by sites' players export file is used as player projections. If you would like to provide your own projections, you can edit the values in the column corresponding to average fantasy points per game. Similarly, if you would not like to be exposed to a particular player, giving them an injury status in the proper column will ensure they are not included in any lineups.
+#
+
 ### Installation
 #### As Package
 To install and use as a Python package:
