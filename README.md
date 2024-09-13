@@ -35,22 +35,22 @@ The examples below will use the name "DKSalaries_example.csv" as a placeholder f
 You can choose to generate lineups from the command line, or from within a Python script:
 
 #### Command Line
-To create a single optimized lineup:
+To create a single optimized lineup (with 3 players from KC and 2 players from JAX):
 ```
-python optimize.py DRAFTKINGS "DKSalaries_example.csv"
+ python optimize.py FULL_ROSTER "FanDuel_full_roster_example.csv" KC3JAX2
 ```
 This will output the lineup to the console:
 ```
-QB: Jared Goff 
-RB1: Austin Ekeler 
-RB2: J.K. Dobbins 
-WR1: Tutu Atwell 
-WR2: Jakobi Meyers 
-WR3: DeAndre Hopkins 
-TE: Sam LaPorta 
-FLEX: Evan Engram 
-DST: Colts  
-SALARY: 47700
+QB: Patrick Mahomes KC 
+RB1: Christian McCaffrey SF 
+RB2: Kyren Williams LAR 
+WR1: Rashee Rice KC 
+WR2: Calvin Ridley JAX 
+WR3: Marquez Valdes-Scantling KC 
+TE: Noah Fant SEA 
+FLEX: Travis Etienne Jr. JAX 
+D: Houston Texans HOU 
+SALARY: 59900
 ```
 
 To create a CSV file with multiple lineups:
