@@ -37,7 +37,7 @@ You can choose to generate lineups from the command line, or from within a Pytho
 #### Command Line
 To create a single optimized lineup (with 3 players from KC and 2 players from JAX):
 ```
- python optimize.py FULL_ROSTER "FanDuel_full_roster_example.csv" KC3JAX2
+ python optimize.py FULL_ROSTER "FanDuel_full_roster_example.csv" KC3-JAX2
 ```
 This will output the lineup to the console:
 ```
@@ -52,6 +52,11 @@ FLEX: Travis Etienne Jr. JAX
 D: Houston Texans HOU 
 SALARY: 59900
 ```
+You can choose to stack a random game by only providing the stack numbers:
+```
+python optimize.py FULL_ROSTER "FanDuel_full_roster_example.csv" 3-2
+```
+This would choose a random game, and provide a lineup with a 3x2 stack from the teams in that game.
 
 To create a CSV file with multiple lineups:
 ```
