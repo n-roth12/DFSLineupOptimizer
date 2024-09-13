@@ -7,7 +7,6 @@ import re
 def optimize_lineup(mode: str, filepath: str, stack: str = None):
     site = get_site_from_filepath(filepath)
     parser = parse_csv(filepath)
-    print(parser.players)
     lineup_builder = LineupBuilder(mode=mode,
                                    site=SETTINGS[site].NAME,
                                    draftables=parser.players)
