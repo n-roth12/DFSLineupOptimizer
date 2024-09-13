@@ -1,23 +1,22 @@
 import unittest
 from lineup_optimizer.lineup_builder import LineupBuilder
-from test.test_draftables import test_draftables
+from .draftkings_draftables import draftkings_draftables
 from lineup_optimizer.lineup import Lineup
-from lineup_optimizer.lineup_tag_rules import LineupTagRules
 
 
-class LineupBuilderTests(unittest.TestCase):
+class DraftkingsLineupBuilderTests(unittest.TestCase):
 
     def test_lineup_builder_get(self):
         lineup_builder = LineupBuilder(mode="FULL_ROSTER",
                                        site="DRAFTKINGS",
-                                       draftables=test_draftables)
+                                       draftables=draftkings_draftables)
         self.assertIsNone(lineup_builder.get("TE2"))
         self.assertTrue(lineup_builder.get("WR3").title == "WR3")
 
     def test_with_punt_rule(self):
         lineup_builder = LineupBuilder(mode="FULL_ROSTER",
                                        site="DRAFTKINGS",
-                                       draftables=test_draftables) \
+                                       draftables=draftkings_draftables) \
             .with_punt_rule("TE", 4000) \
             .with_punt_rule("WR2", 3500)
         self.assertEqual(4000, lineup_builder.get("TE").max_salary)
@@ -132,14 +131,13 @@ class LineupBuilderTests(unittest.TestCase):
 
     def test_build_1(self):
         lineup = self.default_draftkings_builder() \
-            .with_stack_rule("KC", 3, "JAX", 2) \
+            .with_stack_rule("SF", 3, "MIN", 2) \
             .build()
-        self.assertEqual("KC", lineup.get("QB")["team_abbr"])
-        self.assertEqual("KC", lineup.get("WR1")["team_abbr"])
-        self.assertEqual("JAX", lineup.get("WR2")["team_abbr"])
-        self.assertEqual("JAX", lineup.get("WR3")["team_abbr"])
-        self.assertEqual("JAX", lineup.get("FLEX")["team_abbr"])
-        self.assertEqual("JAX", lineup.get("TE")["team_abbr"])
+        self.assertEqual("SF", lineup.get("QB")["team_abbr"])
+        self.assertEqual("SF", lineup.get("WR1")["team_abbr"])
+        self.assertEqual("MIN", lineup.get("WR2")["team_abbr"])
+        self.assertEqual("SF", lineup.get("WR3")["team_abbr"])
+        self.assertEqual("MIN", lineup.get("FLEX")["team_abbr"])
         # self.assertEqual("JAX", lineup.get("RB1")["team"])
         # self.assertEqual("KC", lineup.get("RB2")["team"])
         # self.assertEqual("JAX", lineup.get("DST")["team"])
@@ -195,7 +193,7 @@ class LineupBuilderTests(unittest.TestCase):
 
     def default_draftkings_builder(self):
         return LineupBuilder(mode="FULL_ROSTER",
-                             site="DRAFTKINGS", draftables=test_draftables)
+                             site="DRAFTKINGS", draftables=draftkings_draftables)
 
     def empty_lineup(self):
         return Lineup({"QB": None, "RB1": None, "RB2": None, "WR1": None, "WR2": None,

@@ -1,13 +1,12 @@
 import unittest
 from lineup_optimizer.multi_lineup_builder import MultiLineupBuilder
-from lineup_optimizer.settings import SETTINGS
-from test.test_players.draftkings_players import players
+from .draftkings_draftables import draftkings_draftables
 
 
 class LineupBuilderTests(unittest.TestCase):
     def test_with_exposures(self):
         multi_lineup_builder = MultiLineupBuilder(num_lineups=1, site="DRAFTKINGS",
-                                                  draftables=players).with_exposures([{
+                                                  draftables=draftkings_draftables).with_exposures([{
                                                       "id": "28792273",
                                                       "min_exposure": 100,
                                                       "max_exposure": 100
@@ -20,4 +19,3 @@ class LineupBuilderTests(unittest.TestCase):
                                                       "min_exposure": 0,
                                                       "max_exposure": 50
                                                   }])
-    
