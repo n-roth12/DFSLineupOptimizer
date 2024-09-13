@@ -58,6 +58,8 @@ python optimize.py FULL_ROSTER "FanDuel_full_roster_example.csv" 3-2
 ```
 This would choose a random game, and provide a lineup with a 3x2 stack from the teams in that game.
 
+
+
 To create a CSV file with multiple lineups:
 ```
 python3 generate.py FULL_ROSTER 3 "FanDuel_full_roster_example.csv"
