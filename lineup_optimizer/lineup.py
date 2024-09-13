@@ -13,7 +13,7 @@ class Lineup:
     def __str__(self) -> str:
         result = ""
         for key in self.lineup.keys():
-            result += f"{key}: {self.lineup.get(key).get('name')} \n"
+            result += f"{key}: {self.lineup.get(key).get('name')} {(self.lineup.get(key).get('team_abbr'))} \n"
         result += f"SALARY: {str(self.get_lineup_salary())}"
         return result
 
@@ -36,7 +36,8 @@ class Lineup:
                 points_sum += 0.0 if (
                     player.get("fppg") == "-" or not player.get("fppg")
                 ) else (
-                    SETTINGS[self.site].MODES[self.mode]["POSITIONS"].get(pos).get("PTS_MULTIPLIER") * float(player.get("fppg"))
+                    SETTINGS[self.site].MODES[self.mode]["POSITIONS"].get(
+                        pos).get("PTS_MULTIPLIER") * float(player.get("fppg"))
                 )
 
         return points_sum
@@ -94,7 +95,8 @@ class Lineup:
             if self.is_position_eligible_for_slot(
                 lineup_slot=lineup_slot, position=player.get("position")
             ):
-                self.add_player_at_position(lineup_slot=lineup_slot, player=player)
+                self.add_player_at_position(
+                    lineup_slot=lineup_slot, player=player)
                 return lineup_slot
 
         return None

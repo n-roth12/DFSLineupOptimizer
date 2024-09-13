@@ -7,8 +7,10 @@ def optimize(args: list[str]):
         print("Missing arguments: must include both fame mode and player pool filename.")
         return
     mode = args[1].upper()
-    filepath = args[2]
-    lineup = optimize_lineup(mode, filepath)
+    stack = args[2].upper()
+    filepath = args[3]
+
+    lineup = optimize_lineup(mode, filepath, stack)
     print(lineup)
 
 

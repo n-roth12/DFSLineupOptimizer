@@ -1,3 +1,4 @@
+from typing import List, Set
 from .lineup_builder_slot import LineupBuilderSlot
 from .lineup import Lineup
 from .settings import SETTINGS
@@ -5,16 +6,18 @@ from .settings import SETTINGS
 from random import randint
 from math import floor
 
-STACK_ORDER = ["QB", "WR", "TE", "RB", "DST"]
+STACK_ORDER = ["QB", "WR", "TE", "RB", "DST", "D", "DEF"]
 
 
 class LineupBuilder:
 
-    def __init__(self, positions: list, site: str,
-                 draftables: list, mode: str = "FULL_ROSTER"):
-        self.lineup_slots = []
-        self.site = site
-        self.mode = mode
+    def __init__(self, site: str,
+                 draftables: list, mode: str = "FULL_ROSTER",
+                 weighted_cost_map: dict = {}):
+        self.lineup_slots: List[LineupBuilderSlot] = []
+        self.site: str = site
+        self.mode: str = mode
+        self.teams: Set[str] = set([])
 
         for position, eligible_positions in SETTINGS[site].MODES.get(
                 mode).get("POSITIONS").items():
@@ -25,8 +28,10 @@ class LineupBuilder:
                                   eligible_positions.get("PTS_MULTIPLIER"),
                                   eligible_positions.get("SALARY_MULTIPLIER"))
             )
-
-        self.weighted_cost_map = self.create_weighted_cost_map(draftables)
+        if len(weighted_cost_map) == 0:
+            self.create_weighted_cost_map_and_teams_set(draftables)
+        else:
+            self.weighted_cost_map = weighted_cost_map
 
     def get(self, position_title: str) -> LineupBuilderSlot:
         return next((lineup_slot for lineup_slot in self.lineup_slots if (
@@ -39,10 +44,11 @@ class LineupBuilder:
         for lineup_slot in self.lineup_slots:
             player = None
             for i in range(10):
-                position = self.pick_eligible_position(lineup_slot.eligible_positions)
+                position = self.pick_eligible_position(
+                    lineup_slot.eligible_positions)
                 player = self.pick_player(
                     position=position,
-                    team_abbr=lineup_slot.eligible_team,
+                    eligible_teams=lineup_slot.eligible_teams,
                     max_salary=lineup_slot.max_salary,
                     taken_ids=lineup_ids,
                     pts_multiplier=lineup_slot.pts_multiplier,
@@ -52,8 +58,6 @@ class LineupBuilder:
                     lineup_ids.append(player.get("id"))
                     lineup[lineup_slot.title] = player
                     break
-            if not player:
-                return None
 
         return Lineup(lineup=lineup, site=self.site, mode=self.mode)
 
@@ -125,26 +129,29 @@ class LineupBuilder:
                                   key=lambda x:
                                   self.stack_order_helper(x.eligible_positions)):
             if count1 == num_players1 and count2 == num_players2:
-                return self
-            if count2 == num_players2:
-                lineup_slot.set_eligible_team(team_abbr1)
+                lineup_slot.set_eligible_teams(
+                    [team for team in self.teams if (team != team_abbr1
+                                                     and team != team_abbr2)])
+
+            elif count2 == num_players2:
+                lineup_slot.set_eligible_teams([team_abbr1])
                 count1 += 1
             elif count1 == num_players1:
-                lineup_slot.set_eligible_team(team_abbr2)
+                lineup_slot.set_eligible_teams([team_abbr2])
                 count2 += 1
             else:
                 # we first try to stack the first two players of
                 # team1 before any players on team2
                 if count1 > count2 + 1:
-                    lineup_slot.set_eligible_team(team_abbr2)
+                    lineup_slot.set_eligible_teams([team_abbr2])
                     count2 += 1
                 else:
-                    lineup_slot.set_eligible_team(team_abbr1)
+                    lineup_slot.set_eligible_teams([team_abbr1])
                     count1 += 1
 
         if count1 == num_players1 and count2 == num_players2:
             return self
-
+        print("fail")
         return None
 
     def stack_order_helper(self, eligible_positions: list) -> int:
@@ -154,12 +161,15 @@ class LineupBuilder:
         t = randint(0, len(eligible_positions) - 1)
         return eligible_positions[t]
 
-    def create_weighted_cost_map(self, draftables: list) -> dict:
+    def create_weighted_cost_map_and_teams_set(self, draftables: list) -> None:
         weighted_cost_map = {}
+        teams_set = set([])
 
         for draftable in draftables:
             if draftable.get("status") in SETTINGS[self.site].INJURED_STATUSES:
                 continue
+
+            teams_set.add(draftable.get("team_abbr"))
 
             fantasy_points_per_game = 0.0 if (
                 draftable.get("fppg") == "-") else (
@@ -179,14 +189,15 @@ class LineupBuilder:
                 key=lambda player: player.get("value"),
                 reverse=True)
 
-        return weighted_cost_map
+        self.weighted_cost_map = weighted_cost_map
+        self.teams = teams_set
 
     def pick_player(self, position: str, taken_ids: list = [],
-                    team_abbr: str = None, max_salary: int = None,
+                    eligible_teams: List[str] = [], max_salary: int = None,
                     pts_multiplier: float = 1.0,
                     salary_multiplier: float = 1.0) -> dict:
         eligible_players = [player for player in self.weighted_cost_map[position] if (
-            (team_abbr is None or player.get("team") == team_abbr)
+            (len(eligible_teams) < 1 or player.get("team_abbr") in eligible_teams)
             and (max_salary is None or player.get("salary") <= max_salary)
             and (player.get("id") not in taken_ids)
         )]
@@ -202,5 +213,8 @@ class LineupBuilder:
 
     def nth_pos_percentile(self, pos: str, num_players: int):
         if pos in SETTINGS[self.site].EXCLUSION_CONSTANTS.keys():
-            return max(2, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
-        return max(2, floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"] * num_players))
+            return max(1,
+                       floor(SETTINGS[self.site].EXCLUSION_CONSTANTS[pos] * num_players))
+        return max(1,
+                   floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"]
+                         * num_players))
