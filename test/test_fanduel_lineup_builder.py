@@ -45,7 +45,7 @@ class FanduelLineupBuilderTests(unittest.TestCase):
 
     def test_with_valid_stack_rule_3_1(self):
         lineup_builder = self.default_fanduel_builder().with_stack_rule(
-            "KC", 3, "JAX", 1)
+            ["KC", 3, "JAX", 1])
         self.assertEqual(lineup_builder.get("QB").eligible_teams, ["KC"])
         self.assertEqual(lineup_builder.get("WR1").eligible_teams, ["KC"])
         self.assertEqual(lineup_builder.get("WR2").eligible_teams, ["JAX"])
@@ -54,7 +54,7 @@ class FanduelLineupBuilderTests(unittest.TestCase):
 
     def test_with_valid_stack_rule_1_3(self):
         lineup_builder = self.default_fanduel_builder().with_stack_rule(
-            "KC", 1, "JAX", 3)
+            ["KC", 1, "JAX", 3])
         self.assertTrue(lineup_builder.get("QB").eligible_teams == ["KC"])
         self.assertTrue(lineup_builder.get("WR1").eligible_teams == ["JAX"])
         self.assertTrue(lineup_builder.get("WR2").eligible_teams == ["JAX"])
@@ -131,7 +131,7 @@ class FanduelLineupBuilderTests(unittest.TestCase):
 
     def test_build_1(self):
         lineup = self.default_fanduel_builder() \
-            .with_stack_rule("KC", 3, "JAX", 2) \
+            .with_stack_rule(["KC", 3, "JAX", 2]) \
             .build()
         self.assertEqual("KC", lineup.get("QB")["team_abbr"])
         self.assertEqual("KC", lineup.get("WR1")["team_abbr"])
