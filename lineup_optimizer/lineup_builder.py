@@ -3,7 +3,7 @@ from .lineup_builder_slot import LineupBuilderSlot
 from .lineup import Lineup
 from .settings import SETTINGS
 
-from random import randint
+from random import randint, choice
 from math import floor
 
 STACK_ORDER = ["QB", "WR", "TE", "RB", "DST", "D", "DEF"]
@@ -14,6 +14,7 @@ class LineupBuilder:
     def __init__(self, site: str,
                  draftables: list, mode: str = "FULL_ROSTER",
                  weighted_cost_map: dict = {}):
+        self.draftables = draftables
         self.lineup_slots: List[LineupBuilderSlot] = []
         self.site: str = site
         self.mode: str = mode
@@ -110,7 +111,6 @@ class LineupBuilder:
                     slot.eligible_positions = [position]
                 if count >= num_players:
                     return self
-
         return None
 
     def with_punt_rule(self, position_title: str, max_salary: int = None):
@@ -120,38 +120,48 @@ class LineupBuilder:
         lineup_slot.set_max_salary(max_salary)
         return self
 
-    def with_stack_rule(self, team_abbr1: str, num_players1: int,
-                        team_abbr2: str, num_players2: int):
+    # stack_arr must be of format ['KC', 3, 'JAX', 2] or [3, 2]
+    # not providing teams will cause a random game to be chosen, and teams
+    # will be stacked from the teams in that game
+    def with_stack_rule(self, stack_arr):
+        if (len(stack_arr) != 4 and len(stack_arr) != 2):
+            print("---ERROR: INVALID STACK ARRAY PROVIDED---")
+            return
+        num_players_1 = int(stack_arr[1]) if len(stack_arr) == 4 else int(stack_arr[0])
+        num_players_2 = int(stack_arr[3]) if len(stack_arr) == 4 else int(stack_arr[1])
+        random_stack_teams = self.get_random_stack_teams()
+
+        team_abbr_1 = stack_arr[0] if len(stack_arr) == 4 else random_stack_teams[0]
+        team_abbr_2 = stack_arr[2] if len(stack_arr) == 4 else random_stack_teams[1]
+
         count1 = 0
         count2 = 0
-
         for lineup_slot in sorted(self.lineup_slots,
                                   key=lambda x:
                                   self.stack_order_helper(x.eligible_positions)):
-            if count1 == num_players1 and count2 == num_players2:
+            if count1 == num_players_1 and count2 == num_players_2:
                 lineup_slot.set_eligible_teams(
-                    [team for team in self.teams if (team != team_abbr1
-                                                     and team != team_abbr2)])
-
-            elif count2 == num_players2:
-                lineup_slot.set_eligible_teams([team_abbr1])
+                    [team for team in self.teams if (team != team_abbr_1
+                                                     and team != team_abbr_2)])
+            elif count2 == num_players_2:
+                lineup_slot.set_eligible_teams([team_abbr_1])
                 count1 += 1
-            elif count1 == num_players1:
-                lineup_slot.set_eligible_teams([team_abbr2])
+            elif count1 == num_players_1:
+                lineup_slot.set_eligible_teams([team_abbr_2])
                 count2 += 1
             else:
                 # we first try to stack the first two players of
                 # team1 before any players on team2
                 if count1 > count2 + 1:
-                    lineup_slot.set_eligible_teams([team_abbr2])
+                    lineup_slot.set_eligible_teams([team_abbr_2])
                     count2 += 1
                 else:
-                    lineup_slot.set_eligible_teams([team_abbr1])
+                    lineup_slot.set_eligible_teams([team_abbr_1])
                     count1 += 1
 
-        if count1 == num_players1 and count2 == num_players2:
+        if count1 == num_players_1 and count2 == num_players_2:
             return self
-        print("fail")
+
         return None
 
     def stack_order_helper(self, eligible_positions: list) -> int:
@@ -218,3 +228,7 @@ class LineupBuilder:
         return max(1,
                    floor(SETTINGS[self.site].EXCLUSION_CONSTANTS["DEFAULT"]
                          * num_players))
+
+    def get_random_stack_teams(self) -> List[str]:
+        random_draftable = choice(self.draftables)
+        return random_draftable.get('game').split('@')
